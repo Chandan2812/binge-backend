@@ -13,7 +13,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/", blogRoutes);
+app.use("/blog", blogRoutes);
 app.use("/", subscriberRoutes);
 
 // Connect DB and start server

@@ -4,7 +4,7 @@ const BlogPost = require("../models/blog.model");
 
 exports.newBlogPost = async (req, res) => {
   try {
-    const { title, slug, excerpt, content, author, tags, category } = req.body;
+    const { title, slug, excerpt, content, author, tags } = req.body;
 
     if (!req.file || (!req.file.path && !req.file.secure_url)) {
       return res.status(400).json({ error: "Cover image is required." });
@@ -14,10 +14,6 @@ exports.newBlogPost = async (req, res) => {
       return res
         .status(400)
         .json({ error: "Blog content (HTML) is required." });
-    }
-
-    if (!category || typeof category !== "string") {
-      return res.status(400).json({ error: "Category is required." });
     }
 
     const coverImage = req.file.secure_url || req.file.path;
@@ -38,7 +34,6 @@ exports.newBlogPost = async (req, res) => {
       excerpt,
       content,
       author,
-      category,
       tags: tags?.split(",").map((tag) => tag.trim()),
       coverImage,
       schemaMarkup, // stored as array
@@ -72,29 +67,10 @@ exports.getBlog = async (req, res) => {
   }
 };
 
-exports.getBlogsByCategory = async (req, res) => {
-  try {
-    const categorySlug = req.params.categoryName;
-    const categoryName = categorySlug.replace(/-/g, " ");
-
-    const blogs = await BlogPost.find({
-      category: new RegExp(`${categoryName}`, "i"),
-    }).sort({
-      datePublished: -1,
-    });
-
-    res.status(200).json(blogs);
-  } catch (error) {
-    console.error("Error fetching blogs by category:", error.message);
-    res.status(500).json({ error: "Server error" });
-  }
-};
-
 // Update blog post by slug
 exports.updateBlogPostBySlug = async (req, res) => {
   const { slug } = req.params;
-  const { title, content, author, excerpt, tags, category, schemaMarkup } =
-    req.body;
+  const { title, content, author, excerpt, tags, schemaMarkup } = req.body;
 
   try {
     const updateFields = {
@@ -103,7 +79,6 @@ exports.updateBlogPostBySlug = async (req, res) => {
       ...(author && { author }),
       ...(excerpt && { excerpt }),
       ...(tags && { tags: tags.split(",").map((tag) => tag.trim()) }),
-      ...(category && { category }),
       ...(schemaMarkup && { schemaMarkup }), // 🔥 store as-is
 
       lastUpdated: new Date(),
