@@ -67,6 +67,24 @@ exports.getBlog = async (req, res) => {
   }
 };
 
+// Fetch blog by slug
+exports.getBlogBySlug = async (req, res) => {
+  try {
+    const { slug } = req.params;
+
+    const blog = await BlogPost.findOne({ slug });
+
+    if (!blog) {
+      return res.status(404).json({ error: "Blog not found" });
+    }
+
+    return res.status(200).json(blog);
+  } catch (error) {
+    console.error("Error fetching blog by slug:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 // Update blog post by slug
 exports.updateBlogPostBySlug = async (req, res) => {
   const { slug } = req.params;
