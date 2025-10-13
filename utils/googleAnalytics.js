@@ -8,7 +8,7 @@ const analyticsDataClient = new BetaAnalyticsDataClient({
 });
 
 // Replace with your actual GA4 property ID
-const PROPERTY_ID = "367884741";
+const PROPERTY_ID = "504422611";
 
 async function getReport() {
   const [response] = await analyticsDataClient.runReport({

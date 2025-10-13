@@ -8,7 +8,7 @@ const analyticsDataClient = new BetaAnalyticsDataClient({
 });
 
 // GA4 Property ID
-const PROPERTY_ID = "367884741";
+const PROPERTY_ID = "504422611";
 
 async function SeoSummary() {
   const [response] = await analyticsDataClient.runReport({
