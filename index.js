@@ -3,6 +3,7 @@ const cors = require("cors");
 const blogRoutes = require("./routes/blog.route");
 const subscriberRoutes = require("./routes/subscriber.route");
 const contactRoutes = require("./routes/contact.routes");
+const leadRoutes = require("./routes/lead.route");
 
 require("dotenv").config();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use("/blog", blogRoutes);
 app.use("/", subscriberRoutes);
 app.use("/query", contactRoutes);
+app.use("/lead", leadRoutes);
 
 // Connect DB and start server
 const PORT = process.env.PORT || 8000;
