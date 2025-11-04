@@ -5,6 +5,8 @@ const subscriberRoutes = require("./routes/subscriber.route");
 const contactRoutes = require("./routes/contact.routes");
 const leadRoutes = require("./routes/lead.route");
 
+const analyticsRoute = require("./routes/analyticsRoute");
+
 require("dotenv").config();
 
 const { connect } = require("./config/db");
@@ -18,7 +20,10 @@ app.use(express.json());
 app.use("/blog", blogRoutes);
 app.use("/", subscriberRoutes);
 app.use("/query", contactRoutes);
+
 app.use("/lead", leadRoutes);
+
+app.use("/api/google", analyticsRoute);
 
 // Connect DB and start server
 const PORT = process.env.PORT || 8000;
